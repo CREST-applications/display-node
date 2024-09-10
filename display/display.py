@@ -12,10 +12,10 @@ from .renderer import Renderer
 
 
 class Config(BaseModel):
-    camera_topic: str = "/image_raw/compressed"
-    pose_topic: str = "/pose"
-    threshold: float = 0.5
-    scale: float = 1.0
+    camera_topic: str
+    pose_topic: str
+    threshold: float
+    scale: float
 
 
 class Display(Node):
@@ -39,7 +39,7 @@ class Display(Node):
         self.get_logger().info("Initialized")
 
     def __camera_callback(self, image: Image):
-        cv_image = self.__cv_bridge.imgmsg_to_cv2(image)
+        cv_image = self.__cv_bridge.imgmsg_to_cv2(image, desired_encoding="bgr8")
 
         self.__renderer.draw(cv_image, self.__pose_buffer, self.__current_fps)
 

@@ -1,5 +1,5 @@
 from rclpy.node import Node
-from sensor_msgs.msg import Image
+from sensor_msgs.msg import CompressedImage
 from std_msgs.msg import String
 from cv_bridge import CvBridge
 import cv2
@@ -19,7 +19,9 @@ class Config(BaseModel):
 class Display(Node):
     def __init__(self, config: Config):
         super().__init__("display")
-        self.create_subscription(Image, "/camera", self.__camera_callback, 1)
+        self.create_subscription(
+            CompressedImage, "/camera", self.__camera_callback, 1
+        )
         self.create_subscription(String, "/pose", self.__pose_callback, 1)
 
         self.__cv_bridge = CvBridge()
@@ -36,11 +38,8 @@ class Display(Node):
 
         self.get_logger().info("Initialized")
 
-    def __camera_callback(self, image: Image):
-        # cv_image = self.__cv_bridge.imgmsg_to_cv2(image, desired_encoding="bgr8")
-        cv_image = self.__cv_bridge.imgmsg_to_cv2(image)
-
-        # cv_image = cv2.imdecode(cv_image, cv2.IMREAD_COLOR)
+    def __camera_callback(self, image: CompressedImage):
+        cv_image = self.__cv_bridge.compressed_imgmsg_to_cv2(image)
         cv_image = cv2.resize(cv_image, None, fx=self.__scale, fy=self.__scale)
 
         self.__renderer.draw(cv_image, self.__pose_buffer, self.__current_fps)

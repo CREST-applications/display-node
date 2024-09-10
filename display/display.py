@@ -12,8 +12,6 @@ from .renderer import Renderer
 
 
 class Config(BaseModel):
-    camera_topic: str
-    pose_topic: str
     threshold: float
     scale: float
 
@@ -21,8 +19,8 @@ class Config(BaseModel):
 class Display(Node):
     def __init__(self, config: Config):
         super().__init__("display")
-        self.create_subscription(Image, config.camera_topic, self.__camera_callback, 1)
-        self.create_subscription(String, config.pose_topic, self.__pose_callback, 1)
+        self.create_subscription(Image, "/camera", self.__camera_callback, 1)
+        self.create_subscription(String, "/pose", self.__pose_callback, 1)
 
         self.__cv_bridge = CvBridge()
         self.__renderer = Renderer(config.threshold)

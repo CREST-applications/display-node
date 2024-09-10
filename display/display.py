@@ -37,7 +37,10 @@ class Display(Node):
         self.get_logger().info("Initialized")
 
     def __camera_callback(self, image: Image):
-        cv_image = self.__cv_bridge.imgmsg_to_cv2(image, desired_encoding="bgr8")
+        # cv_image = self.__cv_bridge.imgmsg_to_cv2(image, desired_encoding="bgr8")
+        cv_image = self.__cv_bridge.imgmsg_to_cv2(image)
+
+        cv_image = cv2.resize(cv_image, None, fx=self.__scale, fy=self.__scale)
 
         self.__renderer.draw(cv_image, self.__pose_buffer, self.__current_fps)
 

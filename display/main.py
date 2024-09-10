@@ -5,9 +5,7 @@ from .display import Display, Config
 
 def main():
     config = Config(
-        camera_topic="/image_raw/compressed",
-        pose_topic="/pose",
-        threshold=0.3,
+        threshold=0.7,
         scale=1.0,
     )
 

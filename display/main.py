@@ -1,12 +1,13 @@
 import rclpy
+import os
 
 from .display import Display, Config
 
 
 def main():
     config = Config(
-        threshold=0.7,
-        scale=1.0,
+        threshold=float(os.environ["POSE_THRESHOLD"]),
+        scale=2.0,
     )
 
     rclpy.init()

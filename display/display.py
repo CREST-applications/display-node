@@ -40,9 +40,9 @@ class Display(Node):
 
     def __camera_callback(self, image: CompressedImage):
         cv_image = self.__cv_bridge.compressed_imgmsg_to_cv2(image)
-        cv_image = cv2.resize(cv_image, None, fx=self.__scale, fy=self.__scale)
-
         self.__renderer.draw(cv_image, self.__pose_buffer, self.__current_fps)
+
+        cv_image = cv2.resize(cv_image, None, fx=self.__scale, fy=self.__scale)
 
         cv2.imshow("Display Node", cv_image)
         cv2.waitKey(1)

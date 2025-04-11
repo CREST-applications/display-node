@@ -1,0 +1,16 @@
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        - UID=1001
+        - GID=1001
+    network_mode: host
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      # - .:/home/user/ros2_ws/src
+    environment:
+      - ROS_DOMAIN_ID=33
+      - DISPLAY=${DISPLAY}
+    command: ros2 run rqt_image_view rqt_image_view

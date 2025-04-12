@@ -20,9 +20,9 @@ class Display(Node):
     def __init__(self, config: Config):
         super().__init__("display")
         self.create_subscription(
-            CompressedImage, "/camera", self.__camera_callback, 1
+            CompressedImage, "/rendered", self.__camera_callback, 1
         )
-        self.create_subscription(String, "/pose", self.__pose_callback, 1)
+        # self.create_subscription(String, "/pose", self.__pose_callback, 1)
 
         self.__cv_bridge = CvBridge()
         self.__renderer = Renderer(config.threshold)
@@ -40,9 +40,9 @@ class Display(Node):
 
     def __camera_callback(self, image: CompressedImage):
         cv_image = self.__cv_bridge.compressed_imgmsg_to_cv2(image)
-        self.__renderer.draw(cv_image, self.__pose_buffer, self.__current_fps)
+        # self.__renderer.draw(cv_image, self.__pose_buffer, self.__current_fps)
 
-        cv_image = cv2.resize(cv_image, None, fx=self.__scale, fy=self.__scale)
+        # cv_image = cv2.resize(cv_image, None, fx=self.__scale, fy=self.__scale)
 
         cv2.imshow("Display Node", cv_image)
         cv2.waitKey(1)

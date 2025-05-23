@@ -1,16 +1,12 @@
 import rclpy
-import os
 
-from .display import Display, Config
+from .display import Display
 
 
 def main():
-    config = Config(
-        threshold=float(os.environ["POSE_THRESHOLD"]),
-        scale=2.0,
-    )
-
     rclpy.init()
-    camera = Display(config)
+
+    camera = Display()
+
     rclpy.spin(camera)
     rclpy.shutdown()

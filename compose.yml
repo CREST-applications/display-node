@@ -1,12 +1,32 @@
 services:
+  rqt:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.rqt
+      args:
+        - UID=1000
+        - GID=1000
+    network_mode: host
+    ipc: host
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ~/.Xauthority:/home/user/.Xauthority
+    environment:
+      - DISPLAY=${DISPLAY}
+      - ROS_DOMAIN_ID=33
+    working_dir: /home/user/ros2_ws
+    tty: true
+    command: ros2 run rqt_image_view rqt_image_view
+
   dev:
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: ./Dockerfile.dev
       args:
-        - UID=1001
-        - GID=1001
+        - UID=1000
+        - GID=1000
     network_mode: host
+    ipc: host
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - ~/.Xauthority:/home/user/.Xauthority
@@ -15,13 +35,12 @@ services:
       - DISPLAY=${DISPLAY}
       - ROS_DOMAIN_ID=33
       - DISPLAY_SCALE=1.5
-    working_dir: /home/user/ros2_ws
-    # command: ros2 run rqt_image_view rqt_image_view
-    # command:
-    #   - bash
-    #   - -c
-    #   - |
-    #     colcon build --symlink-install
-    #     source /home/user/ros2_ws/install/setup.bash
-    #     ros2 run display main
+    working_dir: /home/user/ros2_ws/
     tty: true
+    command:
+      - bash
+      - -c
+      - |
+        colcon build --symlink-install
+        source /home/user/ros2_ws/install/setup.bash
+        ros2 run display main

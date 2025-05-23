@@ -38,7 +38,7 @@ class Display(Node):
         _, _, width, height = cv2.getWindowImageRect("Renderer")
         print(f"Window size: {width}x{height}")
         # resized_image = cv2.resize(cv_image, (width, height), interpolation=cv2.INTER_LINEAR)
-        resized_image = cv2.resize(cv_image, dsize=None, fx=0.5,fy=0.5, interpolation = cv2.INTER_LINEAR)
+        resized_image = cv2.resize(cv_image, dsize=None, fx=2.0,fy=2.0, interpolation = cv2.INTER_LINEAR)
 
         cv2.imshow("Renderer", resized_image)
         cv2.waitKey(1)

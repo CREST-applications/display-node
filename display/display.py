@@ -24,7 +24,7 @@ class Display(Node):
         # self.create_subscription(
         #     CompressedImage, "/rendered", self.__callback, 1
         # )
-        self.create_subscription(CompressedImage, "/camera", self.__callback, 1)
+        self.create_subscription(CompressedImage, "/rendered", self.__callback, 1)
         self.__cv_bridge = CvBridge()
 
         cv2.namedWindow("Renderer", cv2.WINDOW_NORMAL)
